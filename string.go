@@ -7,21 +7,17 @@ import (
 	"strings"
 )
 
-// StrListAddDel return string
-// example: StrListAddDel("1,2,3", "2", "4") --> "1,3,4"
-func StrListAddDel(old, add, del string) string {
-	// delete the `del` string
-	if del != "" {
-		old = strings.ReplaceAll(old, del, "")
-	}
+// StrAddDel return string
+// example: StrAddDel("1,2,3", "2", "4") --> "1,3,4"
+func StrAddDel(old, add, del string) string {
 	// add the `add` string
-	if add != "" && strings.Contains(old, add) {
-		add += "," + add
+	if add != "" && !strings.Contains(old, add) {
+		old += "," + add
 	}
 	// init a new slice
 	s := make([]string, 0)
 	for _, v := range strings.Split(old, ",") {
-		if v != "" {
+		if v != "" && v != del {
 			s = append(s, v)
 		}
 	}
@@ -81,4 +77,24 @@ func Float64StringSort(str string) string {
 	strSorted := builder.String()
 	length := len(strSorted)
 	return strSorted[:length-1]
+}
+
+func StrToDistinctStr(str string) string {
+	strList := StrToList(str)
+	strMap := make(map[string]int)
+	for _, v := range strList {
+		strMap[v] = 0
+	}
+
+	var builder strings.Builder
+	for k := range strMap {
+		builder.WriteString(k)
+	}
+
+	return builder.String()
+}
+
+func StrToDistinctList(str string) []string {
+	list := StrToDistinctStr(str)
+	return strings.Split(list, ",")
 }
