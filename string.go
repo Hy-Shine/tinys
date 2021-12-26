@@ -42,7 +42,7 @@ func StrToList(str string) []string {
 }
 
 // IntStringSort return a sorted string
-// example: "4,57,8" --> "4,8,57"
+// example: IntStringSort("4,57,8") --> "4,8,57"
 func IntStringSort(str string) string {
 	strList := StrToList(str)
 	intList := make([]int, 0)
@@ -63,7 +63,7 @@ func IntStringSort(str string) string {
 }
 
 // Float64StringSort return a sorted string
-// example: "4.2,5.7,8.1,2" --> "4,8,57"
+// example: Float64StringSort("4.2,5.7,8.1,2") --> "2.0,4.2,5.7,8.1"
 func Float64StringSort(str string) string {
 	strList := StrToList(str)
 	float64List := make([]float64, 0)
