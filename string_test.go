@@ -6,7 +6,7 @@ func TestStrListAddDel(t *testing.T) {
 	str := "1,2,3,4"
 	newStr := StrAddDel(str, "5", "3")
 	if newStr != "1,2,4,5" {
-		t.Fatalf("meet %s, but hope %s", newStr, "1,2,4,5")
+		t.Fatalf("meet %s, but expect %s", newStr, "1,2,4,5")
 	}
 	newStr = StrAddDel(str, "2", "3")
 	if newStr != "1,2,4" {
