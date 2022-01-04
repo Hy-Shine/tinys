@@ -27,6 +27,29 @@ func TestIntStringSort(t *testing.T) {
 	}
 }
 
+func TestToUpper(t *testing.T) {
+	var s = "test lower"
+	ToUpper(&s)
+	if s != "TEST LOWER" {
+		t.Fatalf("meet %s, but expect %s", s, "TEST LOWER")
+	}
+}
+
+func BenchmarkToUpper(b *testing.B) {
+	var s = "Hello World"
+	for i := 0; i < b.N; i++ {
+		ToUpper(&s)
+	}
+}
+
+func TestToLower(t *testing.T) {
+	var s = "TEST lower"
+	ToLower(&s)
+	if s != "test lower" {
+		t.Fatalf("meet %s, but expect %s", s, "test lower")
+	}
+}
+
 func BenchmarkStrAddDel(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = StrAddDel("1,2,3,4,5,6,7,8,9,3,4,5,6,,34,3,4,4,5,2,3,45,,5,2,3", "10", "0")

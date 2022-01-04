@@ -98,3 +98,11 @@ func StrToDistinctList(str string) []string {
 	list := StrToDistinctStr(str)
 	return strings.Split(list, ",")
 }
+
+func ToUpper(s *string) {
+	*s = strings.ToUpper(*s)
+}
+
+func ToLower(s *string) {
+	*s = strings.ToLower(*s)
+}
