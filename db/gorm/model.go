@@ -13,14 +13,14 @@ type user struct {
 	Address string `gorm:"type:varchar(255);default:''" json:"address"`
 }
 
-const userTableName = "users"
+const usersTableName = "users"
 
 var ormDb *gorm.DB
 
-type Func func(*gorm.DB)
+type ormFunc func(*gorm.DB)
 
 func (u *user) TableName() string {
-	return userTableName
+	return usersTableName
 }
 
 func (u *user) createUser() error {
@@ -49,11 +49,13 @@ func (u *user) userInfoWithCondition() error {
 	return query.First(u).Error
 }
 
-func queryColumns(db *gorm.DB, column string) {
-	db.Select(column)
+func queryColumns(column string) ormFunc {
+	return func(db *gorm.DB) {
+		db.Select(column)
+	}
 }
 
-func (u *user) userInfoWithFunc(fl ...Func) {
+func (u *user) userInfoWithFunc(fl ...ormFunc) {
 	query := ormDb.Model(user{})
 	for _, f := range fl {
 		f(query)

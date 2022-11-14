@@ -1,6 +1,9 @@
 package go_utils
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestStrListAddDel(t *testing.T) {
 	str := "1,2,3,4"
@@ -54,4 +57,28 @@ func BenchmarkStrAddDel(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = StrAddDel("1,2,3,4,5,6,7,8,9,3,4,5,6,,34,3,4,4,5,2,3,45,,5,2,3", "10", "0")
 	}
+}
+
+func TestFindInt(t *testing.T) {
+	ints := []int{0, 1, 2, 8, 9, 9, 9, 10}
+	target := 9
+	index := findInt(ints, target)
+	fmt.Println(index)
+}
+
+func BenchmarkFindInt(b *testing.B) {
+	l := make([]int, 0, 100000)
+	for i := 0; i < 100000; i++ {
+		l = append(l, i)
+	}
+	for i := 0; i < b.N; i++ {
+		findInt(l, 50000)
+	}
+}
+
+func TestFindFirstGreatThan(t *testing.T) {
+	ints := []int{8}
+	target := 7
+	index := findFirstGreatThan(ints, target)
+	fmt.Println(index)
 }
