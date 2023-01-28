@@ -1,6 +1,8 @@
 package go_utils
 
-import "golang.org/x/exp/constraints"
+import (
+	"golang.org/x/exp/constraints"
+)
 
 func If[T constraints.Ordered](b bool, trueVal, falseVal T) T {
 	if b {
