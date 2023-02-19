@@ -1,15 +1,26 @@
 # Configuration docs: https://golangci-lint.run/usage/configuration
 # top level keywords: run linters linters-settings output issues severity
 # https://json.schemastore.org/golangci-lint.json
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+  gocyclo:
+    # Minimal code complexity to report.
+    # Default: 30 (but we recommend 10-20)
+    min-complexity: 10
+  errorlint:
+    errorf: true
+  funlen:
+    lines: 100
+    statements: 40
+  nolintlint:
+    require-explanation: true
+    require-specific: true
+
 linters:
   # Run only fast linters from enabled linters set (first run won't be fast)
-  # Default: false
   fast: true
-  # Disable all linters.
-  # Default: false
   disable-all: true
-  # Enable specific linter
-  # https://golangci-lint.run/usage/linters/#enabled-by-default
   enable:
     # - asasalint
     # - asciicheck
@@ -106,35 +117,3 @@ linters:
     - wastedassign
     - whitespace
     # - wsl
-  # Enable presets.
-  # https://golangci-lint.run/usage/linters
-  presets:
-    - bugs
-    - comment
-    - complexity
-    - error
-    - format
-    - import
-    - metalinter
-    - module
-    - performance
-    - sql
-    - style
-    - test
-    - unused
-
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-  gocyclo:
-    # Minimal code complexity to report.
-    # Default: 30 (but we recommend 10-20)
-    min-complexity: 10
-  errorlint:
-    errorf: true
-  funlen:
-    lines: 100
-    statements: 40
-  nolintlint:
-    require-explanation: true
-    require-specific: true
