@@ -5,22 +5,22 @@ import (
 	"strings"
 )
 
-func IsValidIP(ip string) bool {
+func IsIP(ip string) bool {
 	return net.ParseIP(ip) != nil
 }
 
-func IsValidIPv4(ip string) bool {
-	if !strings.Contains(ip, ".") || strings.Contains(ip, ":") {
-		return false
+func IsIPv4(ip string) bool {
+	if index := strings.IndexByte(ip, '.'); index > 0 {
+		return IsIP(ip)
 	}
-	return IsValidIP(ip)
+	return false
 }
 
-func IsValidIPv6(ip string) bool {
-	if !strings.Contains(ip, ":") || strings.Contains(ip, ".") {
-		return false
+func IsIPv6(ip string) bool {
+	if index := strings.IndexByte(ip, ':'); index >= 0 {
+		return IsIP(ip)
 	}
-	return IsValidIP(ip)
+	return false
 }
 
 func CIDRContainsIP(cidr, ip string) bool {

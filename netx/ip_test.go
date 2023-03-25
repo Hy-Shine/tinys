@@ -19,7 +19,7 @@ func TestIsValidIP(t *testing.T) {
 	}
 
 	for _, v := range cases {
-		assert.Equal(t, v.exp, IsValidIP(v.in))
+		assert.Equal(t, v.exp, IsIP(v.in))
 	}
 }
 
@@ -36,7 +36,7 @@ func TestIsValidIPv4(t *testing.T) {
 		{in: "127.0.0.1.", exp: false},
 	}
 	for _, v := range cases {
-		assert.Equal(t, v.exp, IsValidIPv4(v.in), fmt.Sprintf("case: %s not pass", v.in))
+		assert.Equal(t, v.exp, IsIPv4(v.in), fmt.Sprintf("case: %s not pass", v.in))
 	}
 }
 
@@ -53,7 +53,7 @@ func TestIsValidIPv6(t *testing.T) {
 		{in: "1080:0:0:0:8:800:200C:417A", exp: true},
 	}
 	for _, v := range cases {
-		assert.Equal(t, v.exp, IsValidIPv6(v.in), fmt.Sprintf("case: %s NOT PASS", v.in))
+		assert.Equal(t, v.exp, IsIPv6(v.in), fmt.Sprintf("case: %s NOT PASS", v.in))
 	}
 }
 
