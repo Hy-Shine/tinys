@@ -1,4 +1,4 @@
-package go_utils
+package list
 
 import (
 	"strings"
@@ -6,16 +6,15 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-func ListFirst[T constraints.Ordered](list []T) T {
+func FirstEle[T any](list []T) T {
 	var first T
 	if len(list) > 0 {
 		first = list[0]
 	}
-
 	return first
 }
 
-func ListDistinct[T constraints.Ordered](list []T) []T {
+func Distinct[T constraints.Ordered](list []T) []T {
 	if len(list) <= 1 {
 		return list
 	}
@@ -32,24 +31,12 @@ func ListDistinct[T constraints.Ordered](list []T) []T {
 	return result
 }
 
-func ListMerge[T constraints.Ordered](origin, target []T) []T {
+func Merge[T constraints.Ordered](origin, target []T) []T {
 	merged := make([]T, len(origin)+len(target))
 	copy(merged, origin)
 	copy(merged[len(origin):], target)
 
 	return merged
-}
-
-func SliceToStr(slice []string) string {
-	l := make([]string, 0)
-
-	for _, v := range slice {
-		if v != "" {
-			l = append(l, v)
-		}
-	}
-
-	return strings.Join(l, ",")
 }
 
 func findInt(l []int, target int) int {
@@ -95,4 +82,22 @@ func findFirstGreatThan(l []int, target int) int {
 		}
 	}
 	return middle
+}
+
+func Contains[T comparable](l []T, target T) bool {
+	for _, v := range l {
+		if v == target {
+			return true
+		}
+	}
+	return false
+}
+
+func StrsContains(l []string, target string) bool {
+	for _, v := range l {
+		if strings.Contains(v, target) {
+			return true
+		}
+	}
+	return false
 }
