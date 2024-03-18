@@ -1,4 +1,4 @@
-package list
+package datastruct
 
 import (
 	"strings"
@@ -100,4 +100,16 @@ func StrsContains(l []string, target string) bool {
 		}
 	}
 	return false
+}
+
+func ListSplit[T any](list []T, size int) [][]T {
+	var result [][]T
+	for i := 0; i < len(list); i += size {
+		end := i + size
+		if end > len(list) {
+			end = len(list)
+		}
+		result = append(result, list[i:end])
+	}
+	return result
 }

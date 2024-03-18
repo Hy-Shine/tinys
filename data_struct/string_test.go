@@ -1,4 +1,4 @@
-package go_utils
+package datastruct
 
 import (
 	"testing"

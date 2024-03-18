@@ -1,4 +1,4 @@
-package go_utils
+package datastruct
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func TestHashSet_Add(t *testing.T) {
-	hash := NewHashSet()
+func TestSet_Add(t *testing.T) {
+	hash := NewSet[int]()
 	wg := &sync.WaitGroup{}
 	for i := 1; i <= 100; i++ {
 		wg.Add(1)
@@ -18,13 +18,13 @@ func TestHashSet_Add(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	for i := range hash.Range() {
+	for i := range hash.Keys() {
 		fmt.Println(i)
 	}
 }
 
-func BenchmarkHashSet_Add(b *testing.B) {
-	hash := NewHashSet()
+func BenchmarkSet_Add(b *testing.B) {
+	hash := NewSet[int]()
 	wg := sync.WaitGroup{}
 	for i := 0; i < b.N; i++ {
 		wg.Add(1)
