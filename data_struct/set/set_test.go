@@ -7,7 +7,7 @@ import (
 )
 
 func TestSet_Add(t *testing.T) {
-	hash := NewSet[int]()
+	hash := New[int]()
 	wg := &sync.WaitGroup{}
 	for i := 1; i <= 100; i++ {
 		wg.Add(1)
@@ -24,7 +24,7 @@ func TestSet_Add(t *testing.T) {
 }
 
 func BenchmarkSet_Add(b *testing.B) {
-	hash := NewSet[int]()
+	hash := New[int]()
 	wg := sync.WaitGroup{}
 	for i := 0; i < b.N; i++ {
 		wg.Add(1)

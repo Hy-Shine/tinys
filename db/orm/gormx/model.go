@@ -1,4 +1,4 @@
-package gorm
+package gormx
 
 // docs: https://gorm.io
 // github repo: https://github.com/go-gorm/gorm
