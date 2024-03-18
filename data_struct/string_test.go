@@ -1,6 +1,8 @@
-package go_utils
+package datastruct
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestStrListAddDel(t *testing.T) {
 	str := "1,2,3,4"
@@ -28,7 +30,7 @@ func TestIntStringSort(t *testing.T) {
 }
 
 func TestToUpper(t *testing.T) {
-	var s = "test lower"
+	s := "test lower"
 	ToUpper(&s)
 	if s != "TEST LOWER" {
 		t.Fatalf("meet %s, but expect %s", s, "TEST LOWER")
@@ -36,14 +38,14 @@ func TestToUpper(t *testing.T) {
 }
 
 func BenchmarkToUpper(b *testing.B) {
-	var s = "Hello World"
+	s := "Hello World"
 	for i := 0; i < b.N; i++ {
 		ToUpper(&s)
 	}
 }
 
 func TestToLower(t *testing.T) {
-	var s = "TEST lower"
+	s := "TEST lower"
 	ToLower(&s)
 	if s != "test lower" {
 		t.Fatalf("meet %s, but expect %s", s, "test lower")
