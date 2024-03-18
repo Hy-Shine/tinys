@@ -1,4 +1,4 @@
-package go_utils
+package datastruct
 
 func IsAlphabet(s byte) bool {
 	return s >= 'A' && s <= 'Z' || s >= 'a' && s <= 'z'

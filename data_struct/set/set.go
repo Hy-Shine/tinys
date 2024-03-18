@@ -1,4 +1,4 @@
-package datastruct
+package set
 
 import "sync"
 
@@ -7,14 +7,14 @@ type hashSet[K comparable] struct {
 	m    map[K]struct{}
 }
 
-func NewSet[K comparable]() *hashSet[K] {
+func New[K comparable]() *hashSet[K] {
 	return &hashSet[K]{
 		lock: sync.RWMutex{},
 		m:    make(map[K]struct{}),
 	}
 }
 
-func NewHashWithCap[K comparable](cap int) *hashSet[K] {
+func NewWithCap[K comparable](cap int) *hashSet[K] {
 	return &hashSet[K]{
 		lock: sync.RWMutex{},
 		m:    make(map[K]struct{}, cap),
