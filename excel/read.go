@@ -3,7 +3,7 @@ package excel
 import (
 	"os"
 
-	"github.com/hy-shine/go-utils/file"
+	"github.com/hy-shine/tinys/file"
 	"github.com/xuri/excelize/v2"
 )
 
