@@ -6,14 +6,24 @@ import (
 	"os"
 )
 
-func Generate(content, filePath string) error {
+func Write(reader io.Reader, storePath string) error {
+	f, err := os.Create(storePath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	_, err = f.ReadFrom(reader)
+	return err
+}
+
+func WriteString(content, filePath string) error {
 	imageBytes := []byte(content)
 	err := os.WriteFile(filePath, imageBytes, 0o755)
 	return err
 }
 
-func GenerateByBytes(content []byte, filePath string) error {
-	imageBytes := content
+func WriteBytes(imageBytes []byte, filePath string) error {
 	err := os.WriteFile(filePath, imageBytes, 0o755)
 	return err
 }

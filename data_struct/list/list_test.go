@@ -1,6 +1,7 @@
 package list
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -122,4 +123,11 @@ func BenchmarkListSplit(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Split(list, size)
 	}
+}
+
+func TestMapRW(t *testing.T) {
+	m := make(map[int]struct{})
+	m1 := make(map[int]struct{})
+
+	fmt.Println(reflect.DeepEqual(m, m1))
 }
