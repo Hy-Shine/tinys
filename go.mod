@@ -1,4 +1,4 @@
-module github.com/hy-shine/go-utils
+module github.com/hy-shine/tinys
 
 go 1.20
 
