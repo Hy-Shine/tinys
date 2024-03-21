@@ -1,6 +1,7 @@
 package list
 
 import (
+	"strconv"
 	"strings"
 
 	"golang.org/x/exp/constraints"
@@ -114,6 +115,15 @@ func Split[T any](list []T, size int) [][]T {
 			end = len(list)
 		}
 		result = append(result, list[i:end])
+	}
+	return result
+}
+
+func StrListToInt[T constraints.Integer](list []string) []T {
+	result := make([]T, 0, len(list))
+	for _, v := range list {
+		n, _ := strconv.ParseInt(v, 10, 64)
+		result = append(result, T(n))
 	}
 	return result
 }
