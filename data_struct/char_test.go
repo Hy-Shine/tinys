@@ -19,7 +19,7 @@ func TestIsAlphabet(t *testing.T) {
 	}
 
 	for _, v := range cases {
-		if b := IsAlphabet(v.in); b != v.exp {
+		if b := IsValidLetter(v.in); b != v.exp {
 			t.Errorf("case %s not pass!", string(v.in))
 		}
 	}
@@ -43,5 +43,38 @@ func TestIsNumber(t *testing.T) {
 		if b := IsNumber(v.in); b != v.exp {
 			t.Errorf("case %s not pass!", string(v.in))
 		}
+	}
+}
+
+func TestSwapCase(t *testing.T) {
+	// Test case 1
+	input1 := byte('A')
+	expected1 := byte('a')
+	output1 := SwapCase(input1)
+	if output1 != expected1 {
+		t.Errorf("SwapCase(%q) = %q, expected %q", input1, output1, expected1)
+	}
+
+	// Test case 2
+	input2 := byte('a')
+	expected2 := byte('A')
+	output2 := SwapCase(input2)
+	if output2 != expected2 {
+		t.Errorf("SwapCase(%q) = %q, expected %q", input2, output2, expected2)
+	}
+
+	// Test case 3
+	input3 := byte('0')
+	expected3 := byte('0')
+	output3 := SwapCase(input3)
+	if output3 != expected3 {
+		t.Errorf("SwapCase(%q) = %q, expected %q", input3, output3, expected3)
+	}
+
+	input4 := byte('|')
+	expected4 := byte('|')
+	output4 := SwapCase(input4)
+	if output4 != expected4 {
+		t.Errorf("SwapCase(%q) = %q, expected %q", input4, output4, expected4)
 	}
 }

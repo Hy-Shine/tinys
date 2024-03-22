@@ -127,3 +127,20 @@ func StrListToInt[T constraints.Integer](list []string) []T {
 	}
 	return result
 }
+
+func ToSet[T comparable](l []T) map[T]struct{} {
+	m := make(map[T]struct{}, 2*len(l)/3)
+	for i := range l {
+		m[l[i]] = struct{}{}
+	}
+	return m
+}
+
+func ToSetFunc[T comparable, V any](l []any, f func(in any) (key T, value V)) map[T]V {
+	m := make(map[T]V, len(l))
+	for _, v := range l {
+		key, value := f(v)
+		m[key] = value
+	}
+	return m
+}

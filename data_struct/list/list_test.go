@@ -131,3 +131,39 @@ func TestMapRW(t *testing.T) {
 
 	fmt.Println(reflect.DeepEqual(m, m1))
 }
+
+func TestToSet(t *testing.T) {
+	t.Run("Empty input slice", func(t *testing.T) {
+		input := []int{}
+		result := ToSet(input)
+		if len(result) != 0 {
+			t.Errorf("Expected an empty map but got a map with length %d", len(result))
+		}
+	})
+
+	t.Run("Slice with unique elements", func(t *testing.T) {
+		input := []string{"apple", "banana", "cherry"}
+		result := ToSet(input)
+		expectedLength := len(input)
+		if len(result) != expectedLength {
+			t.Errorf("Expected a map with %d elements but got a map with length %d", expectedLength, len(result))
+		}
+	})
+
+	t.Run("Slice with duplicate elements", func(t *testing.T) {
+		input := []int{1, 2, 2, 3, 3, 3}
+		result := ToSet(input)
+		if reflect.DeepEqual(result, map[int]struct{}{1: {}, 2: {}, 3: {}}) {
+			t.Errorf("Expected a map with %d elements but got a map with length %d", 3, len(result))
+		}
+	})
+
+	t.Run("Slice with a mix of data types", func(t *testing.T) {
+		input := []interface{}{1, "apple", 3.14, true, "apple"}
+		result := ToSet(input)
+		expectedLength := 4
+		if len(result) != expectedLength {
+			t.Errorf("Expected a map with %d elements but got a map with length %d", expectedLength, len(result))
+		}
+	})
+}
