@@ -7,7 +7,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-// ReadExcel reads the contents of an Excel file and returns the data as a slice of slices of strings.
+// Read reads the contents of an Excel file and returns the data as a slice of slices of strings.
 func Read(fileName string, sheetName ...string) ([][]string, error) {
 	if !file.FileIsExists(fileName) {
 		return nil, os.ErrNotExist

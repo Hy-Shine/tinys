@@ -1,11 +1,32 @@
-package datastruct
+package str
 
 import (
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
+
+	"golang.org/x/exp/constraints"
 )
+
+func Concat(strs []string, sep string) string {
+	return strings.Join(strs, sep)
+}
+
+func ConcatFunc(strs []string, sep string, f func(string) (string, bool)) string {
+	newStrs := make([]string, 0, len(strs))
+	for i := range strs {
+		if s, b := f(strs[i]); b {
+			newStrs = append(newStrs, s)
+		}
+	}
+	return strings.Join(newStrs, sep)
+}
+
+func ToNumber[T constraints.Integer | constraints.Float](str string) (T, error) {
+	f, err := strconv.ParseFloat(str, 64)
+	return T(f), err
+}
 
 // StrAddDel return string
 // example: StrAddDel("1,2,3", "2", "4") --> "1,3,4"
