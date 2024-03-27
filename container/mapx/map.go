@@ -40,15 +40,28 @@ func KeysEqual[T comparable, V any](m1, m2 map[T]V) bool {
 // order. The map m must be of type map[T]V, where T is comparable, or the
 // function panics. The function returns a slice of type []T.
 func Keys[T comparable, V any](m map[T]V) []T {
-	return KeysFunc(m, func(k T) (T, bool) { return k, true })
+	keys := make([]T, 0, len(m)>>2)
+	Range(m, func(k T, v V) bool {
+		keys = append(keys, k)
+		return true
+	})
+	return keys
 }
 
 func KeysFunc[T comparable, V any](m map[T]V, f func(k T) (T, bool)) []T {
-	keys := make([]T, 0, len(m))
+	keys := make([]T, 0, len(m)>>2)
 	for k := range m {
 		if val, ok := f(k); ok {
 			keys = append(keys, val)
 		}
 	}
 	return keys
+}
+
+func Range[K comparable, V any](m map[K]V, f func(k K, v V) bool) {
+	for k := range m {
+		if !f(k, m[k]) {
+			continue
+		}
+	}
 }

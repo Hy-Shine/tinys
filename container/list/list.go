@@ -15,12 +15,12 @@ func FirstEle[T any](list []T) T {
 	return first
 }
 
-func Distinct[T constraints.Ordered](list []T) []T {
+func Distinct[T comparable](list []T) []T {
 	if len(list) <= 1 {
 		return list
 	}
 
-	distinct := make(map[T]struct{}, len(list))
+	distinct := make(map[T]struct{}, 3*len(list)/2)
 	result := make([]T, 0, len(list))
 	for i := range list {
 		_, ok := distinct[list[i]]
@@ -40,51 +40,6 @@ func Merge[T constraints.Ordered](origin, target []T) []T {
 	return merged
 }
 
-func findInt(l []int, target int) int {
-	const notFound = -1
-	if l[0] > target || l[len(l)-1] < target {
-		return notFound
-	}
-
-	low, high := 0, len(l)-1
-	for low <= high {
-		middle := (low + high) / 2
-		if l[middle] == target {
-			return middle
-		}
-		if l[middle] > target {
-			high = middle - 1
-		} else {
-			low = middle + 1
-		}
-	}
-	return notFound
-}
-
-// 1,2,3,4,5 10 --> -1
-func findFirstGreatThan(l []int, target int) int {
-	if l[len(l)-1] < target {
-		return -1
-	}
-	if l[0] > target {
-		return 0
-	}
-	low, high := 0, len(l)-1
-	middle := 0
-	for low <= high {
-		middle = (low + high) / 2
-		if l[middle] > target && l[middle-1] <= target {
-			break
-		}
-		if l[middle] > target {
-			high = middle - 1
-		} else {
-			low = middle + 1
-		}
-	}
-	return middle
-}
-
 func Contains[T comparable](l []T, target T) bool {
 	for _, v := range l {
 		if v == target {
@@ -94,9 +49,9 @@ func Contains[T comparable](l []T, target T) bool {
 	return false
 }
 
-func StrsContains(l []string, target string) bool {
-	for _, v := range l {
-		if strings.Contains(v, target) {
+func StrsContains[K ~string](l []K, target K) bool {
+	for i := range l {
+		if strings.Contains(string(l[i]), string(target)) {
 			return true
 		}
 	}
@@ -119,7 +74,15 @@ func Split[T any](list []T, size int) [][]T {
 	return result
 }
 
-func StrListToInt[T constraints.Integer](list []string) []T {
+func IntsToStrings[K constraints.Integer](l []K) []string {
+	result := make([]string, len(l))
+	for i, v := range l {
+		result[i] = strconv.FormatInt(int64(v), 10)
+	}
+	return result
+}
+
+func StringsToInts[T constraints.Integer](list []string) []T {
 	result := make([]T, 0, len(list))
 	for _, v := range list {
 		n, _ := strconv.ParseInt(v, 10, 64)
