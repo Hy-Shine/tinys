@@ -1,66 +1,45 @@
 package set
 
-import "sync"
-
-type hashSet[K comparable] struct {
-	lock sync.RWMutex
-	m    map[K]struct{}
+type gset[K comparable] struct {
+	c int
+	m map[K]struct{}
 }
 
-func New[K comparable]() *hashSet[K] {
-	return &hashSet[K]{
-		lock: sync.RWMutex{},
-		m:    make(map[K]struct{}),
+func NewSet[K comparable](cap int) *gset[K] {
+	if cap < 0 {
+		cap = 0
+	}
+	return &gset[K]{
+		c: cap,
+		m: make(map[K]struct{}, cap),
 	}
 }
 
-func NewWithCap[K comparable](cap int) *hashSet[K] {
-	return &hashSet[K]{
-		lock: sync.RWMutex{},
-		m:    make(map[K]struct{}, cap),
-	}
+func (s *gset[K]) Add(v K) {
+	s.m[v] = struct{}{}
 }
 
-func (h *hashSet[K]) Add(l ...K) {
-	h.lock.Lock()
-	for _, v := range l {
-		h.m[v] = struct{}{}
-	}
-	h.lock.Unlock()
+func (s *gset[K]) Delete(v K) {
+	delete(s.m, v)
 }
 
-func (h *hashSet[K]) Delete(v K) {
-	h.lock.Lock()
-	defer h.lock.Unlock()
-	delete(h.m, v)
+func (s *gset[K]) IsExists(v K) bool {
+	_, ok := s.m[v]
+	return ok
 }
 
-func (h *hashSet[K]) Clear() {
-	h.lock.Lock()
-	defer h.lock.Unlock()
-	h.m = make(map[K]struct{})
+func (s *gset[K]) Len() int {
+	return len(s.m)
 }
 
-func (h *hashSet[K]) Keys() []K {
-	h.lock.Lock()
-	keys := make([]K, 0, h.Len())
-	for k := range h.m {
+func (s *gset[K]) Keys() []K {
+	keys := make([]K, 0, s.Len())
+	for k := range s.m {
 		keys = append(keys, k)
 	}
-	h.lock.Unlock()
 	return keys
 }
 
-func (h *hashSet[K]) Len() int {
-	h.lock.Lock()
-	length := len(h.m)
-	h.lock.Unlock()
-	return length
-}
-
-func (h *hashSet[K]) IsExists(e K) bool {
-	h.lock.RLock()
-	_, ok := h.m[e]
-	h.lock.Unlock()
-	return ok
+func (s *gset[K]) Clear() {
+	s.m = make(map[K]struct{}, s.c)
 }
