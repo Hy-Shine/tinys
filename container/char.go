@@ -1,4 +1,4 @@
-package datastruct
+package container
 
 func SwapCase(s byte) byte {
 	if !IsValidLetter(s) {
