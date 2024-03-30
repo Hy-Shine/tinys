@@ -107,3 +107,16 @@ func ToSetFunc[T comparable, V any](l []any, f func(in any) (key T, value V)) ma
 	}
 	return m
 }
+
+func Reverse[T any](nums []T) {
+	if len(nums) == 0 {
+		return
+	}
+
+	left, right := 0, len(nums)-1
+	for left <= right {
+		nums[left], nums[right] = nums[right], nums[left]
+		left++
+		right--
+	}
+}

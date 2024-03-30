@@ -167,3 +167,36 @@ func TestToSet(t *testing.T) {
 		}
 	})
 }
+
+func TestReverse(t *testing.T) {
+	// empty string slice
+	var empty = []string{}
+	Reverse(empty)
+	if !reflect.DeepEqual(empty, []string{}) {
+		t.Errorf("Expected [] but got %v", empty)
+	}
+
+	l0 := []int{1, 2, 3, 4}
+	Reverse(l0)
+	if !reflect.DeepEqual(l0, []int{4, 3, 2, 1}) {
+		t.Errorf("Expected [4, 3, 2, 1] but got %v", l0)
+	}
+
+	l1 := []string{"a", "b", "c", "d"}
+	Reverse(l1)
+	if !reflect.DeepEqual(l1, []string{"d", "c", "b", "a"}) {
+		t.Errorf("Expected [d, c, b, a] but got %v", l1)
+	}
+
+	l2 := []bool{true, false, true, false}
+	Reverse(l2)
+	if !reflect.DeepEqual(l2, []bool{false, true, false, true}) {
+		t.Errorf("Expected [false, true, false, true] but got %v", l2)
+	}
+
+	l3 := []byte{'a', 'b', 'c', 'd', 'e'}
+	Reverse[byte](l3)
+	if !reflect.DeepEqual(l3, []byte{'e', 'd', 'c', 'b', 'a'}) {
+		t.Errorf("Expected [d, c, b, a] but got %v", l3)
+	}
+}

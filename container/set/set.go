@@ -15,8 +15,10 @@ func NewSet[K comparable](cap int) *gset[K] {
 	}
 }
 
-func (s *gset[K]) Add(v K) {
-	s.m[v] = struct{}{}
+func (s *gset[K]) Add(vs ...K) {
+	for i := range vs {
+		s.m[vs[i]] = struct{}{}
+	}
 }
 
 func (s *gset[K]) Delete(v K) {
