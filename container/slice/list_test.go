@@ -1,4 +1,4 @@
-package list
+package slice
 
 import (
 	"fmt"
@@ -170,7 +170,7 @@ func TestToSet(t *testing.T) {
 
 func TestReverse(t *testing.T) {
 	// empty string slice
-	var empty = []string{}
+	empty := []string{}
 	Reverse(empty)
 	if !reflect.DeepEqual(empty, []string{}) {
 		t.Errorf("Expected [] but got %v", empty)
