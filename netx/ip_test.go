@@ -2,6 +2,7 @@ package netx
 
 import (
 	"fmt"
+	"net"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -69,5 +70,22 @@ func TestCIDRContainsIP(t *testing.T) {
 	}
 	for _, v := range cases {
 		assert.Equal(t, v.exp, CIDRContainsIP(v.cidr, v.ip), fmt.Sprintf("cidr:%s ip:%s NOT PASS", v.cidr, v.ip))
+	}
+}
+
+func TestToLong(t *testing.T) {
+	ip := net.ParseIP("192.168.0.1")
+	fmt.Println(IPv4ToLong(ip))
+}
+
+func TestLongToIP(t *testing.T) {
+	longIP := IPv4ToLong(net.ParseIP("192.168.0.1"))
+	fmt.Println(LongToIP(longIP))
+}
+
+func BenchmarkToLongOr(t *testing.B) {
+	ip := net.ParseIP("192.168.0.1")
+	for i := 0; i < t.N; i++ {
+		IPv4ToLong(ip)
 	}
 }
