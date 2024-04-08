@@ -2,22 +2,20 @@ package set
 
 import "sync"
 
-type hashSet[K comparable] struct {
+type conSet[K comparable] struct {
 	lock sync.RWMutex
 	m    map[K]struct{}
 }
 
-func New[K comparable](cap int) *hashSet[K] {
-	if cap < 0 {
-		cap = 0
-	}
-	return &hashSet[K]{
+func New[K comparable](cap ...int) *conSet[K] {
+	initCap := setCap(cap...)
+	return &conSet[K]{
 		lock: sync.RWMutex{},
-		m:    make(map[K]struct{}),
+		m:    make(map[K]struct{}, initCap),
 	}
 }
 
-func (h *hashSet[K]) Add(l ...K) {
+func (h *conSet[K]) Add(l ...K) {
 	h.lock.Lock()
 	for _, v := range l {
 		h.m[v] = struct{}{}
@@ -25,19 +23,19 @@ func (h *hashSet[K]) Add(l ...K) {
 	h.lock.Unlock()
 }
 
-func (h *hashSet[K]) Delete(v K) {
+func (h *conSet[K]) Delete(v K) {
 	h.lock.Lock()
 	defer h.lock.Unlock()
 	delete(h.m, v)
 }
 
-func (h *hashSet[K]) Clear() {
+func (h *conSet[K]) Clear() {
 	h.lock.Lock()
 	defer h.lock.Unlock()
 	h.m = make(map[K]struct{})
 }
 
-func (h *hashSet[K]) Keys() []K {
+func (h *conSet[K]) Keys() []K {
 	h.lock.Lock()
 	keys := make([]K, 0, h.Len())
 	for k := range h.m {
@@ -47,16 +45,26 @@ func (h *hashSet[K]) Keys() []K {
 	return keys
 }
 
-func (h *hashSet[K]) Len() int {
+func (h *conSet[K]) Len() int {
 	h.lock.Lock()
 	length := len(h.m)
 	h.lock.Unlock()
 	return length
 }
 
-func (h *hashSet[K]) IsExists(e K) bool {
+func (h *conSet[K]) IsExists(e K) bool {
 	h.lock.RLock()
 	_, ok := h.m[e]
 	h.lock.Unlock()
 	return ok
+}
+
+func (h *conSet[K]) Range(f func(k K) bool) {
+	h.lock.RLock()
+	for k := range h.m {
+		if !f(k) {
+			continue
+		}
+	}
+	h.lock.Unlock()
 }
