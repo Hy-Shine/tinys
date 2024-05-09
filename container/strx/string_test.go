@@ -1,6 +1,7 @@
 package str
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -74,31 +75,6 @@ func TestToNumber(t *testing.T) {
 	}
 }
 
-func TestStrListAddDel(t *testing.T) {
-	str := "1,2,3,4"
-	newStr := StrAddDel(str, "5", "3")
-	if newStr != "1,2,4,5" {
-		t.Fatalf("meet %s, but expect %s", newStr, "1,2,4,5")
-	}
-	newStr = StrAddDel(str, "2", "3")
-	if newStr != "1,2,4" {
-		t.Fatalf("meet %s, but hope %s", newStr, "1,2,4")
-	}
-}
-
-func TestIntStringSort(t *testing.T) {
-	sortInt := IntStringSort("1,2,3,3,4,5,6,7,2,4,0,1,3")
-	expect := "0,1,1,2,2,3,3,3,4,4,5,6,7"
-	if sortInt != expect {
-		t.Fatalf("meet %s, but expect %s", sortInt, expect)
-	}
-	sortInt = IntStringSort(",,0,23,-1,4,7,9")
-	expect = "-1,0,4,7,9,23"
-	if sortInt != expect {
-		t.Fatalf("meet %s, but expect %s", sortInt, expect)
-	}
-}
-
 func TestToUpper(t *testing.T) {
 	s := "test lower"
 	ToUpper(&s)
@@ -122,8 +98,46 @@ func TestToLower(t *testing.T) {
 	}
 }
 
-func BenchmarkStrAddDel(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		_ = StrAddDel("1,2,3,4,5,6,7,8,9,3,4,5,6,,34,3,4,4,5,2,3,45,,5,2,3", "10", "0")
+func TestIntToStrings(t *testing.T) {
+	// Testing for an empty slice
+	input1 := []int{}
+	expected1 := []string{}
+	result1 := IntToStrings(input1)
+	if !reflect.DeepEqual(result1, expected1) {
+		t.Errorf("Expected %v, but got %v", expected1, result1)
+	}
+
+	// Testing for a slice with positive integers
+	input2 := []int{1, 2, 3, 1e5, -100}
+	expected2 := []string{"1", "2", "3", "100000", "-100"}
+	result2 := IntToStrings(input2)
+	if !reflect.DeepEqual(result2, expected2) {
+		t.Errorf("Expected %v, but got %v", expected2, result2)
+	}
+
+	// Testing for a slice with negative integers
+	input3 := []int{-1, -2, -3}
+	expected3 := []string{"-1", "-2", "-3"}
+	result3 := IntToStrings(input3)
+	if !reflect.DeepEqual(result3, expected3) {
+		t.Errorf("Expected %v, but got %v", expected3, result3)
+	}
+}
+
+func TestFloatToStrings(t *testing.T) {
+	cases := []struct {
+		input    []float64
+		expected []string
+	}{
+		{input: []float64{1.23, 4.56, 7.89}, expected: []string{"1.23", "4.56", "7.89"}},
+		{input: []float64{-1.23, -4.56, -7.89}, expected: []string{"-1.23", "-4.56", "-7.89"}},
+		{input: []float64{0.0, 0.0, 0.0}, expected: []string{"0", "0", "0"}},
+	}
+
+	for _, c := range cases {
+		result := FloatToStrings(c.input)
+		if !reflect.DeepEqual(result, c.expected) {
+			t.Errorf("Expected %v, but got %v", c.expected, result)
+		}
 	}
 }

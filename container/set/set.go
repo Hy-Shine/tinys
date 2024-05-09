@@ -1,17 +1,26 @@
 package set
 
+import "github.com/hy-shine/tinys/cal"
+
 type gset[K comparable] struct {
 	c int
 	m map[K]struct{}
 }
 
-func NewSet[K comparable](cap int) *gset[K] {
-	if cap < 0 {
-		cap = 0
+func setCap(cap ...int) int {
+	var c int
+	if len(cap) > 0 {
+		c = cap[0]
 	}
+	c = cal.If[int](c > 0, c, 0)
+	return c
+}
+
+func NewSet[K comparable](cap ...int) *gset[K] {
+	initCap := setCap(cap...)
 	return &gset[K]{
-		c: cap,
-		m: make(map[K]struct{}, cap),
+		c: initCap,
+		m: make(map[K]struct{}, initCap),
 	}
 }
 
@@ -40,6 +49,14 @@ func (s *gset[K]) Keys() []K {
 		keys = append(keys, k)
 	}
 	return keys
+}
+
+func (s *gset[K]) Range(f func(k K) bool) {
+	for k := range s.m {
+		if !f(k) {
+			continue
+		}
+	}
 }
 
 func (s *gset[K]) Clear() {

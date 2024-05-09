@@ -16,18 +16,19 @@ func Lock(key string, ttl time.Duration, flag string) (bool, error) {
 	return lock, err
 }
 
-// UnLock releases a shared lock
-//
-// If flag is not empty, it first checks if it's the lock owner before releasing it,
-// preventing the lock from being released by an unauthorized process.
-func UnLock(key string, flag string) (bool, error) {
-	// lua script
-	script := `if redis.call("GET",KEYS[1]) == ARGV[1]
+// lua script
+const script = `if redis.call("GET",KEYS[1]) == ARGV[1]
 then
     return redis.call("DEL",KEYS[1])
 else
     return 0
 end`
+
+// UnLock releases a shared lock
+//
+// If flag is not empty, it first checks if it's the lock owner before releasing it,
+// preventing the lock from being released by an unauthorized process.
+func UnLock(key string, flag string) (bool, error) {
 	r, err := GetInstance().Eval(context.TODO(), script, []string{key}, flag).Result()
 	if err != nil {
 		return false, err

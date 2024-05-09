@@ -1,8 +1,16 @@
 package gormx
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
+
+func PageLimit(page, size int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		offset := (page - 1) * size
+		if offset < 0 {
+			offset = 0
+		}
+		return db.Offset(offset).Limit(size)
+	}
+}
 
 type DBFunc func(*gorm.DB)
 

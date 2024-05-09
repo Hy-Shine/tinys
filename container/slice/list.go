@@ -7,6 +7,16 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+func HasEmpty[T comparable](list []T) bool {
+	var empty T
+	for i := range list {
+		if list[i] == empty {
+			return true
+		}
+	}
+	return false
+}
+
 func FirstEle[T any](list []T) T {
 	var first T
 	if len(list) > 0 {
@@ -119,4 +129,12 @@ func Reverse[T any](nums []T) {
 		left++
 		right--
 	}
+}
+
+func Columns[T any, K any](l []T, f func(T) K) []K {
+	list := make([]K, 0, len(l))
+	for i := range l {
+		list = append(list, f(l[i]))
+	}
+	return list
 }
