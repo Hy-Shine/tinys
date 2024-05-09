@@ -56,7 +56,3 @@ func StrParseToTime(t string, location ...time.Location) (time.Time, error) {
 
 	return time.Parse(layout, t)
 }
-
-func FirstDayOfMonth() {}
-
-func FistDayOfCurrent()
