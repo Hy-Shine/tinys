@@ -3,6 +3,8 @@ package slice
 import (
 	"fmt"
 	"reflect"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -195,8 +197,60 @@ func TestReverse(t *testing.T) {
 	}
 
 	l3 := []byte{'a', 'b', 'c', 'd', 'e'}
-	Reverse[byte](l3)
+	Reverse(l3)
 	if !reflect.DeepEqual(l3, []byte{'e', 'd', 'c', 'b', 'a'}) {
 		t.Errorf("Expected [d, c, b, a] but got %v", l3)
+	}
+}
+
+func TestColumns(t *testing.T) {
+	// Test case 1: Empty slice
+	input1 := []int{}
+	expected1 := []string{}
+	result1 := Columns(input1, func(i int) string {
+		return strconv.Itoa(i)
+	})
+	if !reflect.DeepEqual(result1, expected1) {
+		t.Errorf("Test case 1 failed. Expected %v, but got %v", expected1, result1)
+	}
+
+	// Test case 2: Slice with positive integers
+	input2 := []int{1, 2, 3, 4, 5}
+	expected2 := []string{"1", "2", "3", "4", "5"}
+	result2 := Columns(input2, func(i int) string {
+		return strconv.Itoa(i)
+	})
+	if !reflect.DeepEqual(result2, expected2) {
+		t.Errorf("Test case 2 failed. Expected %v, but got %v", expected2, result2)
+	}
+
+	// Test case 3: Slice with negative integers
+	input3 := []int{-5, -4, -3, -2, -1}
+	expected3 := []string{"-5", "-4", "-3", "-2", "-1"}
+	result3 := Columns(input3, func(i int) string {
+		return strconv.Itoa(i)
+	})
+	if !reflect.DeepEqual(result3, expected3) {
+		t.Errorf("Test case 3 failed. Expected %v, but got %v", expected3, result3)
+	}
+
+	// Test case 4: Slice with mixed integers
+	input4 := []int{-5, 0, 3, -2, 8}
+	expected4 := []string{"-5", "0", "3", "-2", "8"}
+	result4 := Columns(input4, func(i int) string {
+		return strconv.Itoa(i)
+	})
+	if !reflect.DeepEqual(result4, expected4) {
+		t.Errorf("Test case 4 failed. Expected %v, but got %v", expected4, result4)
+	}
+
+	// Test case 5: Slice with custom transformation
+	input5 := []string{"apple", "banana", "cherry", "date"}
+	expected5 := []string{"A", "B", "C", "D"}
+	result5 := Columns(input5, func(s string) string {
+		return strings.ToUpper(string(s[0]))
+	})
+	if !reflect.DeepEqual(result5, expected5) {
+		t.Errorf("Test case 5 failed. Expected %v, but got %v", expected5, result5)
 	}
 }
